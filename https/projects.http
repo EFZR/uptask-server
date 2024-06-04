@@ -1,17 +1,19 @@
 @hostname=localhost
 @port=4000
 
-POST http://{{hostname}}:{{port}}/api/projects
+
+POST http://{{hostname}}:{{port}}/api/projects/
 Content-Type: application/json
 
 {
-  "name": "monitor",
-  "price": "500"
+  "projectName": "Ecommerce",
+  "clientName": "Adidas",
+  "description": "Ecommerce con Next y shopify"
 }
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects
+GET http://{{hostname}}:{{port}}/api/projects/
 
 ###
 
@@ -19,19 +21,8 @@ GET http://{{hostname}}:{{port}}/api/projects/1
 
 ###
 
-PUT http://{{hostname}}:{{port}}/api/projects/4
-Content-Type: application/json
-
-{
-  "name": "monitor",
-  "price": 300,
-  "availability": false
-}
+PUT http://{{hostname}}:{{port}}/api/projects/1
 
 ###
 
-PATCH http://{{hostname}}:{{port}}/api/projects/2
-
-###
-
-DELETE http://{{hostname}}:{{port}}/api/projects/3
+DELETE http://{{hostname}}:{{port}}/api/projects/1
