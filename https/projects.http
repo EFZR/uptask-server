@@ -1,0 +1,37 @@
+@hostname=localhost
+@port=4000
+
+POST http://{{hostname}}:{{port}}/api/projects
+Content-Type: application/json
+
+{
+  "name": "monitor",
+  "price": "500"
+}
+
+###
+
+GET http://{{hostname}}:{{port}}/api/projects
+
+###
+
+GET http://{{hostname}}:{{port}}/api/projects/1
+
+###
+
+PUT http://{{hostname}}:{{port}}/api/projects/4
+Content-Type: application/json
+
+{
+  "name": "monitor",
+  "price": 300,
+  "availability": false
+}
+
+###
+
+PATCH http://{{hostname}}:{{port}}/api/projects/2
+
+###
+
+DELETE http://{{hostname}}:{{port}}/api/projects/3
