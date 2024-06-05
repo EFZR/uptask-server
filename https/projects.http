@@ -1,14 +1,15 @@
 @hostname=localhost
 @port=4000
+@projectId=665fd09fecd7a7675e7cafd5
 
 
 POST http://{{hostname}}:{{port}}/api/projects/
 Content-Type: application/json
 
 {
-  "projectName": "Ecommerce",
-  "clientName": "Adidas",
-  "description": "Ecommerce con Next y shopify"
+  "projectName": "To Do Project",
+  "clientName": "Anonymous",
+  "description": "To do con Vite y TS"
 }
 
 ###
@@ -17,12 +18,19 @@ GET http://{{hostname}}:{{port}}/api/projects/
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects/1
+GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}
 
 ###
 
-PUT http://{{hostname}}:{{port}}/api/projects/1
+PUT http://{{hostname}}:{{port}}/api/projects/{{projectId}}
+Content-Type: application/json
+
+{
+  "projectName": "To Do Project - UPDATED",
+  "clientName": "Anonymous",
+  "description": "To do con Vite y TS"
+}
 
 ###
 
-DELETE http://{{hostname}}:{{port}}/api/projects/1
+DELETE http://{{hostname}}:{{port}}/api/projects/{{projectId}}

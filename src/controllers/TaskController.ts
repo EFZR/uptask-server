@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import colors from "colors";
-import Project from "../models/Project";
 import Task from "../models/Task";
 
 export class TaskController {
@@ -9,7 +8,7 @@ export class TaskController {
       const task = new Task(req.body);
       task.project = req.project.id;
       req.project.tasks.push(task.id);
-      await Promise.allSettled([task.save(), req.project.save()]);
+      await Promise.allSettled([req.project.save(), task.save()]);
       res.send("Tarea creada correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));

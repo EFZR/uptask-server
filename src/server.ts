@@ -5,7 +5,7 @@ import projectRoutes from "./routes/projectRoutes";
 
 dotenv.config();
 
-// connectDB();
+connectDB();
 
 const app = express();
 

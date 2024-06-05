@@ -1,27 +1,12 @@
 @hostname=localhost
 @port=4000
+@projectId=665fd09fecd7a7675e7cafd5
 
 
-POST http://{{hostname}}:{{port}}/api/projects/1/
+POST http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks
 Content-Type: application/json
 
 {
-    "taskName": "",
-    "description": "",
+    "taskName": "Test",
+    "description": "Test"
 }
-
-###
-
-GET http://{{hostname}}:{{port}}/api/projects/1/
-
-###
-
-GET http://{{hostname}}:{{port}}/api/projects/1/1
-
-###
-
-PUT http://{{hostname}}:{{port}}/api/projects/1/1
-
-###
-
-DELETE http://{{hostname}}:{{port}}/api/projects/1/1

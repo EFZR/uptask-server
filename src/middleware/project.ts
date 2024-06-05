@@ -16,6 +16,7 @@ export async function validateCurrentProject(
 ) {
   try {
     const { projectId } = req.params;
+
     const project = await Project.findById(projectId);
     if (!project) {
       const error = new Error("Proyecto no encontrado.");
