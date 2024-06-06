@@ -1,12 +1,44 @@
 @hostname=localhost
 @port=4000
-@projectId=665fd09fecd7a7675e7cafd5
+@projectId=66614230dac2b5177c6dcc39
+@taskId=6661427ddac2b5177c6dcc5b
 
 
 POST http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks
 Content-Type: application/json
 
 {
-    "taskName": "Test",
-    "description": "Test"
+    "taskName": "Backend Server",
+    "description": "Select Backend Server"
 }
+
+###
+
+GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks
+
+###
+
+GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
+
+###
+
+PUT http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
+Content-Type: application/json
+
+{
+    "taskName": "Backend Server - Upgrade",
+    "description": "Select Backend Server"
+}
+
+###
+
+PATCH  http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}/status
+Content-Type: application/json
+
+{
+    "status": "inProgress"
+}
+
+###
+
+DELETE http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
