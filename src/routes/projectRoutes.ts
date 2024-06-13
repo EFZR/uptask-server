@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { ProjectController } from "../controllers/ProjectController";
-import { handleInputErrors } from "../middleware/validation";
 import { TaskController } from "../controllers/TaskController";
+import { handleInputErrors } from "../middleware/validation";
 import { validateCurrentProject } from "../middleware/project";
 import { validateCurrentTask } from "../middleware/task";
 
