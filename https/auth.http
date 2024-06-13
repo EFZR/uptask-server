@@ -10,3 +10,22 @@ Content-Type: application/json
   "password_confirmation": "Password",
   "email": "correo@correo.com"
 }
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/confirm-account
+Content-Type: application/json
+
+{
+  "token": "925390"
+}
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/login
+Content-Type: application/json
+
+{
+  "password": "Password",
+  "email": "correo@correo.com"
+}
