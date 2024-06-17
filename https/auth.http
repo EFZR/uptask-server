@@ -1,5 +1,6 @@
 @hostname=localhost
 @port=4000
+@token=915960
 
 POST http://{{hostname}}:{{port}}/api/auth/create-account
 Content-Type: application/json
@@ -17,7 +18,7 @@ POST http://{{hostname}}:{{port}}/api/auth/confirm-account
 Content-Type: application/json
 
 {
-  "token": "925390"
+  "token": {{token}}
 }
 
 ###
@@ -32,9 +33,37 @@ Content-Type: application/json
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/
+POST http://{{hostname}}:{{port}}/api/auth/request-code
 Content-Type: application/json
 
 {
   "email": "correo@correo.com"
+}
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "correo@correo.com"
+}
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/validate-token
+Content-Type: application/json
+
+{
+  "token": {{token}}
+}
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/update-password/{{token}}
+Content-Type: application/json
+
+{
+  "password": "Password123",
+  "password_confirmation": "Password123"
 }

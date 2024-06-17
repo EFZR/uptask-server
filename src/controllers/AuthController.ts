@@ -114,7 +114,7 @@ export class AuthController {
     try {
       const { email } = req.body;
 
-      // Prevenir Duplicados.
+      // Buscar si existe el usuario.
       const user = await User.findOne({ email });
       if (!user) {
         const error = new Error("El usuario no esta registrado.");
@@ -142,6 +142,78 @@ export class AuthController {
       await token.save();
 
       res.send("Se envió un nuevo token a tu E-mail.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      res.status(500).json({ error: "Error interno." });
+    }
+  }
+
+  static async forgotPassword(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+
+      // Buscar si existe el usuario.
+      const user = await User.findOne({ email });
+      if (!user) {
+        const error = new Error("El usuario no esta registrado.");
+        return res.status(404).json({ error: error.message });
+      }
+
+      // Generar Token.
+      const token = new Token();
+      token.token = generateToken();
+      token.user = user.id;
+
+      // Enviar Email.
+      AuthEmail.sendPasswordResetToken({
+        email: user.email,
+        name: user.name,
+        token: token.token,
+      });
+
+      await token.save();
+
+      res.send("Revisa tu E-Mail para instrucciones.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      res.status(500).json({ error: "Error interno." });
+    }
+  }
+
+  static async validateToken(req: Request, res: Response) {
+    try {
+      const { token } = req.body;
+      const tokenExists = await Token.findOne({ token });
+
+      if (!tokenExists) {
+        const error = new Error("Token no valido.");
+        return res.status(404).json({ error: error.message });
+      }
+
+      return res.send("Token valido define tu nuevo password.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      res.status(500).json({ error: "Error interno." });
+    }
+  }
+
+  static async updatePasswordWithToken(req: Request, res: Response) {
+    try {
+      const { token } = req.params;
+      const { password } = req.body;
+
+      const tokenExists = await Token.findOne({ token });
+      if (!tokenExists) {
+        const error = new Error("Token no valido.");
+        return res.status(404).json({ error: error.message });
+      }
+
+      const user = await User.findById(tokenExists.user);
+      user.password = await hashPassword(password);
+
+      await Promise.allSettled([tokenExists.deleteOne(), user.save()]);
+
+      return res.send("El password se modificó correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
       res.status(500).json({ error: "Error interno." });

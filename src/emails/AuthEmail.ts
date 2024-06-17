@@ -19,7 +19,21 @@ export class AuthEmail {
             <p>E ingresa el codigo: <b>${user.token}</b></p>
             <p>Este token expira en 10 minutos</p>`,
     });
+    console.log(info.messageId);
+  }
 
+  static async sendPasswordResetToken(user: IEmail) {
+    const info = await transporter.sendMail({
+      from: "UpTask <admin@uptask.com>",
+      to: user.email,
+      subject: "UpTask - Restablece tu password",
+      text: "UpTask - Confirma tu cuenta.",
+      html: `<p>Hola: ${user.name}, has solicitado restablecer tu password.</p>
+            <p>Visita el siguiente enlace</p>
+            <a href="${process.env.FRONTEND_URL}/auth/new-password">Restablecer Password</a>
+            <p>E ingresa el codigo: <b>${user.token}</b></p>
+            <p>Este token expira en 10 minutos</p>`,
+    });
     console.log(info.messageId);
   }
 }
