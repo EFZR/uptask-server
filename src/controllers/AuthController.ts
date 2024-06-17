@@ -103,6 +103,8 @@ export class AuthController {
         return res.status(401).json({ error: error.message });
       }
 
+      const token = generateToken();
+
       return res.send("Autenticando...");
     } catch (error) {
       console.log(colors.red.bold(error));
