@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import colors from "colors";
 import User from "../models/User";
 import Token from "../models/Token";
 import { checkPasswork, hashPassword } from "../utils/auth";
 import { generateToken } from "../utils/token";
 import { AuthEmail } from "../emails/AuthEmail";
-import { transporter } from "../config/nodemailer";
 
 export class AuthController {
   static async createAccount(req: Request, res: Response) {
@@ -98,7 +96,7 @@ export class AuthController {
       }
 
       // Revisión de password.
-      const isPasswordCorrect = checkPasswork(password, user.password);
+      const isPasswordCorrect = await checkPasswork(password, user.password);
 
       if (!isPasswordCorrect) {
         const error = new Error("La contraseña es incorrecta.");
@@ -106,6 +104,44 @@ export class AuthController {
       }
 
       return res.send("Autenticando...");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      res.status(500).json({ error: "Error interno." });
+    }
+  }
+
+  static async requestConfirmationCode(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+
+      // Prevenir Duplicados.
+      const user = await User.findOne({ email });
+      if (!user) {
+        const error = new Error("El usuario no esta registrado.");
+        return res.status(404).json({ error: error.message });
+      }
+
+      // Prevenir token de usuarios confirmados.
+      if (user.confirmed) {
+        const error = new Error("El usuario ya esta confirmado.");
+        return res.status(403).json({ error: error.message });
+      }
+
+      // Generar Token.
+      const token = new Token();
+      token.token = generateToken();
+      token.user = user.id;
+
+      // Enviar Email.
+      AuthEmail.sendConfirmationEmail({
+        email: user.email,
+        name: user.name,
+        token: token.token,
+      });
+
+      await token.save();
+
+      res.send("Se envió un nuevo token a tu E-mail.");
     } catch (error) {
       console.log(colors.red.bold(error));
       res.status(500).json({ error: "Error interno." });

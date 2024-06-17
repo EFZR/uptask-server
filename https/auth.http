@@ -29,3 +29,12 @@ Content-Type: application/json
   "password": "Password",
   "email": "correo@correo.com"
 }
+
+###
+
+POST http://{{hostname}}:{{port}}/api/auth/
+Content-Type: application/json
+
+{
+  "email": "correo@correo.com"
+}
