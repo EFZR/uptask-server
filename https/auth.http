@@ -1,8 +1,8 @@
-@hostname=localhost
-@port=4000
-@token=915960
+@HOSTNAME=localhost
+@PORT=4000
+@TOKEN=220192
 
-POST http://{{hostname}}:{{port}}/api/auth/create-account
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/create-account
 Content-Type: application/json
 
 {
@@ -14,16 +14,16 @@ Content-Type: application/json
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/confirm-account
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/confirm-account
 Content-Type: application/json
 
 {
-  "token": {{token}}
+  "token": {{TOKEN}}
 }
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/login
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/request-code
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/request-code
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/forgot-password
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/forgot-password
 Content-Type: application/json
 
 {
@@ -51,16 +51,16 @@ Content-Type: application/json
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/validate-token
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/validate-token
 Content-Type: application/json
 
 {
-  "token": {{token}}
+  "token": {{TOKEN}}
 }
 
 ###
 
-POST http://{{hostname}}:{{port}}/api/auth/update-password/{{token}}
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/update-password/{{TOKEN}}
 Content-Type: application/json
 
 {

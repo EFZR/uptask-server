@@ -5,8 +5,11 @@ import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middleware/validation";
 import { validateCurrentProject } from "../middleware/project";
 import { validateCurrentTask } from "../middleware/task";
+import { authenticate } from "../middleware/auth";
 
 const router = Router();
+
+router.use(authenticate);
 
 // Routes for Projects.
 router.post(

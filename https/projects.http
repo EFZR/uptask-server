@@ -1,29 +1,34 @@
-@hostname=localhost
-@port=4000
-@projectId=66614230dac2b5177c6dcc39
+@HOSTNAME=localhost
+@PORT=4000
+@PROJECT_ID=6670eb4e24df5c262300daeb
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmZiOTg0MTJjMWY0ODI4ODZjZmRmYSIsImlhdCI6MTcxODY3OTY0MiwiZXhwIjoxNzM0MjMxNjQyfQ.H-AMp5xSnmm77m5-2dsWvp2Ke-pQZcGf1iM-iOu0NIQ
 
-
-POST http://{{hostname}}:{{port}}/api/projects/
+POST http://{{HOSTNAME}}:{{PORT}}/api/projects/
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
-  "projectName": "To Do Project",
+  "projectName": "POS",
   "clientName": "Anonymous",
-  "description": "To do con Vite y TS"
+  "description": "POS con Vite y TS"
 }
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects/
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/
+Authorization: Bearer {{ACCESS_JWT}}
+
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}
+Authorization: Bearer {{ACCESS_JWT}}
 
 ###
 
-PUT http://{{hostname}}:{{port}}/api/projects/{{projectId}}
+PUT http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
   "projectName": "To Do Project - UPDATED",
@@ -33,4 +38,6 @@ Content-Type: application/json
 
 ###
 
-DELETE http://{{hostname}}:{{port}}/api/projects/{{projectId}}
+DELETE http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}
+Authorization: Bearer {{ACCESS_JWT}}
+

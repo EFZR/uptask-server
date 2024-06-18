@@ -6,8 +6,13 @@ export class ProjectController {
   static createProject = async (req: Request, res: Response) => {
     const project = new Project(req.body);
 
+    // Asignamos a un Manager.
+    project.manager = req.user.id;
+
     try {
       await project.save();
+      console.log(req.user);
+
       res.send("Proyecto creado correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
@@ -15,9 +20,11 @@ export class ProjectController {
     }
   };
 
-  static getAllProjects = async (_req: Request, res: Response) => {
+  static getAllProjects = async (req: Request, res: Response) => {
     try {
-      const projects = await Project.find({});
+      const projects = await Project.find({
+        $or: [{ manager: { $in: req.user.id } }],
+      });
       res.json(projects);
     } catch (error) {
       console.log(colors.red.bold(error));
@@ -33,6 +40,13 @@ export class ProjectController {
         const error = new Error("Proyecto no encontrado.");
         return res.status(404).json({ error: error.message });
       }
+
+      // Verificación si el usuario le pertenece el projecto.
+      if (project.manager.toString() !== req.user.id.toString()) {
+        const error = new Error("Acción no valida.");
+        return res.status(404).send(error.message);
+      }
+
       res.json(project);
     } catch (error) {
       console.log(colors.red.bold(error));
@@ -49,12 +63,18 @@ export class ProjectController {
         return res.status(404).json({ error: error.message });
       }
 
+      // Verificación si el usuario le pertenece el projecto.
+      if (project.manager.toString() !== req.user.id.toString()) {
+        const error = new Error("Solo el manager puede actualizar el proyecto.");
+        return res.status(404).send(error.message);
+      }
+
       project.projectName = req.body.projectName;
       project.clientName = req.body.clientName;
       project.description = req.body.description;
 
       await project.save();
-      res.send("Proyecto Actualizado.");
+      res.send("Solo el manager puede eliminar el proyecto.");
     } catch (error) {
       console.log(colors.red.bold(error));
       res.status(500).json({ error: "Error interno." });
@@ -69,6 +89,13 @@ export class ProjectController {
         const error = new Error("Proyecto no encontrado.");
         return res.status(404).json({ error: error.message });
       }
+
+      // Verificación si el usuario le pertenece el projecto.
+      if (project.manager.toString() !== req.user.id.toString()) {
+        const error = new Error("Solo el manager puede eliminar el proyecto");
+        return res.status(404).send(error.message);
+      }
+
       await project.deleteOne();
       res.send("Proyecto eliminado.");
     } catch (error) {
