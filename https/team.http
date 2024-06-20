@@ -1,0 +1,33 @@
+@HOSTNAME=localhost
+@PORT=4000
+@PROJECT_ID=6673b29ad634752681796c34
+@USER_ID=6673b1ced634752681796c0d
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzNiMTZhZDYzNDc1MjY4MTc5NmJmZiIsImlhdCI6MTcxODg1ODgwMiwiZXhwIjoxNzM0NDEwODAyfQ.FKHN-vv0OlGnsegTgy5lyuNDRRh8C-NgSEwFj3oridE
+
+POST http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/team/find
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "email": "suamy@mail.com"
+}
+
+###
+
+POST http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/team
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "id": "{{USER_ID}}"
+}
+
+###
+
+DELETE  http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/team/{{USER_ID}}
+Authorization: Bearer {{ACCESS_JWT}}
+
+###
+
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/team
+Authorization: Bearer {{ACCESS_JWT}}

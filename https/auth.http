@@ -20,7 +20,7 @@ POST http://{{HOSTNAME}}:{{PORT}}/api/auth/confirm-account
 Content-Type: application/json
 
 {
-  "token": {{TOKEN}}
+  "token": "{{TOKEN}}"
 }
 
 ###
@@ -57,7 +57,7 @@ POST http://{{HOSTNAME}}:{{PORT}}/api/auth/validate-token
 Content-Type: application/json
 
 {
-  "token": {{TOKEN}}
+  "token": "{{TOKEN}}"
 }
 
 ###
