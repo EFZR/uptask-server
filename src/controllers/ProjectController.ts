@@ -11,8 +11,6 @@ export class ProjectController {
 
     try {
       await project.save();
-      console.log(req.user);
-
       res.send("Proyecto creado correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
@@ -38,13 +36,13 @@ export class ProjectController {
       const project = await Project.findById(id).populate("tasks");
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        return res.status(404).json({ error: error.message });
+        res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
       if (project.manager.toString() !== req.user.id.toString()) {
         const error = new Error("Acción no valida.");
-        return res.status(404).send(error.message);
+        res.status(404).send(error.message);
       }
 
       res.json(project);
@@ -60,13 +58,15 @@ export class ProjectController {
       const project = await Project.findById(id);
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        return res.status(404).json({ error: error.message });
+        res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
       if (project.manager.toString() !== req.user.id.toString()) {
-        const error = new Error("Solo el manager puede actualizar el proyecto.");
-        return res.status(404).send(error.message);
+        const error = new Error(
+          "Solo el manager puede actualizar el proyecto."
+        );
+        res.status(404).send(error.message);
       }
 
       project.projectName = req.body.projectName;
@@ -87,13 +87,13 @@ export class ProjectController {
       const project = await Project.findById(id);
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        return res.status(404).json({ error: error.message });
+        res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
       if (project.manager.toString() !== req.user.id.toString()) {
         const error = new Error("Solo el manager puede eliminar el proyecto");
-        return res.status(404).send(error.message);
+        res.status(404).send(error.message);
       }
 
       await project.deleteOne();

@@ -1,6 +1,8 @@
 @HOSTNAME=localhost
 @PORT=4000
 @TOKEN=220192
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmZiOTg0MTJjMWY0ODI4ODZjZmRmYSIsImlhdCI6MTcxODY3OTY0MiwiZXhwIjoxNzM0MjMxNjQyfQ.H-AMp5xSnmm77m5-2dsWvp2Ke-pQZcGf1iM-iOu0NIQ
+
 
 POST http://{{HOSTNAME}}:{{PORT}}/api/auth/create-account
 Content-Type: application/json
@@ -67,3 +69,8 @@ Content-Type: application/json
   "password": "Password123",
   "password_confirmation": "Password123"
 }
+
+###
+
+GET http://{{HOSTNAME}}:{{PORT}}/api/auth/user
+Authorization: Bearer {{ACCESS_JWT}}
