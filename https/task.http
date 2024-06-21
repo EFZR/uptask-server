@@ -1,11 +1,13 @@
-@hostname=localhost
-@port=4000
-@projectId=66614230dac2b5177c6dcc39
-@taskId=6661427ddac2b5177c6dcc5b
+@HOSTNAME=localhost
+@PORT=4000
+@PROJECT_ID=6673b29ad634752681796c34
+@TASK_ID=66750fe03d72515636bee67f
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzNiMTZhZDYzNDc1MjY4MTc5NmJmZiIsImlhdCI6MTcxODg1ODgwMiwiZXhwIjoxNzM0NDEwODAyfQ.FKHN-vv0OlGnsegTgy5lyuNDRRh8C-NgSEwFj3oridE
 
 
-POST http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks
+POST http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
     "taskName": "Backend Server",
@@ -14,16 +16,19 @@ Content-Type: application/json
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks
+Authorization: Bearer {{ACCESS_JWT}}
 
 ###
 
-GET http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}
+Authorization: Bearer {{ACCESS_JWT}}
 
 ###
 
-PUT http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
+PUT http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
     "taskName": "Backend Server - Upgrade",
@@ -32,8 +37,9 @@ Content-Type: application/json
 
 ###
 
-PATCH  http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}/status
+PATCH  http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}/status
 Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
 
 {
     "status": "inProgress"
@@ -41,4 +47,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://{{hostname}}:{{port}}/api/projects/{{projectId}}/tasks/{{taskId}}
+DELETE http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}
+Authorization: Bearer {{ACCESS_JWT}}

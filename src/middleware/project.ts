@@ -19,14 +19,13 @@ export async function validateCurrentProject(
 
     const project = await Project.findById(projectId);
     if (!project) {
-      const error = new Error("Proyecto no encontrado.");
-      return res.status(404).json({ error: error.message });
+      const err = new Error("Proyecto no encontrado.");
+      next(err);
     }
     req.project = project;
     next();
   } catch (error) {
-    res.status(500).json({
-      error: "Hubo un error.",
-    });
+    const err = new Error("Hubo un error.");
+    next(err);
   }
 }

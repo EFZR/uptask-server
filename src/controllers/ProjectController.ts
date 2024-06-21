@@ -11,10 +11,10 @@ export class ProjectController {
 
     try {
       await project.save();
-      res.send("Proyecto creado correctamente.");
+      return res.send("Proyecto creado correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   };
 
@@ -26,10 +26,10 @@ export class ProjectController {
           { team: { $in: req.user.id } },
         ],
       });
-      res.json(projects);
+      return res.json(projects);
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   };
 
@@ -39,7 +39,7 @@ export class ProjectController {
       const project = await Project.findById(id).populate("tasks");
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        res.status(404).json({ error: error.message });
+        return res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
@@ -48,13 +48,13 @@ export class ProjectController {
         !project.team.includes(req.user.id)
       ) {
         const error = new Error("Acción no valida.");
-        res.status(404).send(error.message);
+        return res.status(404).send(error.message);
       }
 
-      res.json(project);
+      return res.json(project);
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   };
 
@@ -64,7 +64,7 @@ export class ProjectController {
       const project = await Project.findById(id);
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        res.status(404).json({ error: error.message });
+        return res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
@@ -72,7 +72,7 @@ export class ProjectController {
         const error = new Error(
           "Solo el manager puede actualizar el proyecto."
         );
-        res.status(404).send(error.message);
+        return res.status(404).send(error.message);
       }
 
       project.projectName = req.body.projectName;
@@ -80,10 +80,10 @@ export class ProjectController {
       project.description = req.body.description;
 
       await project.save();
-      res.send("Solo el manager puede eliminar el proyecto.");
+      return res.send("Solo el manager puede eliminar el proyecto.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   };
 
@@ -93,20 +93,20 @@ export class ProjectController {
       const project = await Project.findById(id);
       if (!project) {
         const error = new Error("Proyecto no encontrado.");
-        res.status(404).json({ error: error.message });
+        return res.status(404).json({ error: error.message });
       }
 
       // Verificación si el usuario le pertenece el projecto.
       if (project.manager.toString() !== req.user.id.toString()) {
         const error = new Error("Solo el manager puede eliminar el proyecto");
-        res.status(404).send(error.message);
+        return res.status(404).send(error.message);
       }
 
       await project.deleteOne();
-      res.send("Proyecto eliminado.");
+      return res.send("Proyecto eliminado.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   };
 }
