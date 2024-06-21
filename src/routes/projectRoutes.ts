@@ -4,7 +4,7 @@ import { ProjectController } from "../controllers/ProjectController";
 import { TaskController } from "../controllers/TaskController";
 import { handleInputErrors } from "../middleware/validation";
 import { validateCurrentProject } from "../middleware/project";
-import { validateCurrentTask } from "../middleware/task";
+import { hasAuthorization, validateCurrentTask } from "../middleware/task";
 import { authenticate } from "../middleware/auth";
 import { TeamController } from "../controllers/TeamController";
 
@@ -67,6 +67,7 @@ router.param("projectId", validateCurrentProject);
 
 router.post(
   "/:projectId/tasks",
+  hasAuthorization,
   body("taskName")
     .notEmpty()
     .withMessage("El nombre de la tarea es obligatorio."),
@@ -94,6 +95,7 @@ router.get(
 
 router.put(
   "/:projectId/tasks/:taskId",
+  hasAuthorization,
   param("taskId").isMongoId().withMessage("Id no válido."),
   body("taskName")
     .notEmpty()
@@ -117,6 +119,7 @@ router.patch(
 
 router.delete(
   "/:projectId/tasks/:taskId",
+  hasAuthorization,
   param("taskId").isMongoId().withMessage("Id no válido."),
   handleInputErrors,
   TaskController.deleteTask

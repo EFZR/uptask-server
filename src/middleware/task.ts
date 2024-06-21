@@ -35,3 +35,21 @@ export async function validateCurrentTask(
     });
   }
 }
+
+export async function hasAuthorization(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    if (req.user.id.toString() !== req.project.manager.toString()) {
+      const error = new Error("Accion no valida.");
+      return res.status(400).json({ error: error.message });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({
+      error: "Hubo un error.",
+    });
+  }
+}
