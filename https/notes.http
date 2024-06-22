@@ -1,0 +1,24 @@
+@HOSTNAME=localhost
+@PORT=4000
+@PROJECT_ID=6673b29ad634752681796c34
+@TASK_ID=66767500b719a36dc9b0ed46
+@NOTE_ID=6676750cb719a36dc9b0ed50
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzNiMTZhZDYzNDc1MjY4MTc5NmJmZiIsImlhdCI6MTcxODg1ODgwMiwiZXhwIjoxNzM0NDEwODAyfQ.FKHN-vv0OlGnsegTgy5lyuNDRRh8C-NgSEwFj3oridE
+
+POST http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}/notes
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "content": "POS"
+}
+
+###
+
+GET http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}/notes
+Authorization: Bearer {{ACCESS_JWT}}
+
+###
+
+DELETE http://{{HOSTNAME}}:{{PORT}}/api/projects/{{PROJECT_ID}}/tasks/{{TASK_ID}}/notes/{{NOTE_ID}}
+Authorization: Bearer {{ACCESS_JWT}}

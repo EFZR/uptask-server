@@ -30,10 +30,20 @@ export class TaskController {
 
   static getProjectTaskById = async (req: Request, res: Response) => {
     try {
-      const task = await Task.findById(req.task.id).populate({
-        path: "completedBy.user",
-        select: "id name email",
-      });
+      const task = await Task.findById(req.task.id)
+        .populate({
+          path: "notes",
+          select: "content createdBy",
+          populate: {
+            path: "createdBy",
+            select: "id name email",
+          },
+        })
+        .populate({
+          path: "completedBy.user",
+          select: "id name email",
+        });
+
       res.json(task);
     } catch (error) {
       console.log(colors.red.bold(error));
