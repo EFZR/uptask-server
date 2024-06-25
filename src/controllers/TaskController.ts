@@ -33,7 +33,6 @@ export class TaskController {
       const task = await Task.findById(req.task.id)
         .populate({
           path: "notes",
-          select: "content createdBy",
           populate: {
             path: "createdBy",
             select: "id name email",
