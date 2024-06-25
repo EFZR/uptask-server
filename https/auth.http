@@ -97,3 +97,13 @@ Authorization: Bearer {{ACCESS_JWT}}
   "password": "pa",
   "password_confirmation": "pa3"
 }
+
+###
+
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/check-password
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "password": "Passord"
+}

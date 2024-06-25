@@ -272,4 +272,20 @@ export class AuthController {
       return res.status(500).json({ error: "Error interno." });
     }
   }
+
+  static async checkPassword(req: Request, res: Response) {
+    try {
+      const { password } = req.body;
+      const user = await User.findById(req.user.id);
+      const isPasswordCorrect = await checkPasswork(password, user.password);
+      if (!isPasswordCorrect) {
+        const error = new Error("La contraseña es incorrecta.");
+        return res.status(401).json({ error: error.message });
+      }
+      return res.send("Contraseña correcta.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      return res.status(500).json({ error: "Error interno." });
+    }
+  }
 }
