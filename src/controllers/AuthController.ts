@@ -40,10 +40,10 @@ export class AuthController {
 
       await Promise.allSettled([token.save(), user.save()]);
 
-      res.send("Cuenta creada, revisa tu email para confirmarla.");
+      return res.send("Cuenta creada, revisa tu email para confirmarla.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -64,7 +64,7 @@ export class AuthController {
       return res.send("Cuenta confirmada correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -109,7 +109,7 @@ export class AuthController {
       return res.send(token);
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -144,10 +144,10 @@ export class AuthController {
 
       await token.save();
 
-      res.send("Se envió un nuevo token a tu E-mail.");
+      return res.send("Se envió un nuevo token a tu E-mail.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -176,10 +176,10 @@ export class AuthController {
 
       await token.save();
 
-      res.send("Revisa tu E-Mail para instrucciones.");
+      return res.send("Revisa tu E-Mail para instrucciones.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -196,7 +196,7 @@ export class AuthController {
       return res.send("Token valido define tu nuevo password.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
@@ -219,11 +219,57 @@ export class AuthController {
       return res.send("El password se modificó correctamente.");
     } catch (error) {
       console.log(colors.red.bold(error));
-      res.status(500).json({ error: "Error interno." });
+      return res.status(500).json({ error: "Error interno." });
     }
   }
 
   static async user(req: Request, res: Response) {
     return res.json(req.user);
+  }
+
+  static async updateProfile(req: Request, res: Response) {
+    const { name, email } = req.body;
+
+    const userExists = await User.findOne({ email });
+    if (userExists && userExists.id.toString() !== req.user.id.toString()) {
+      const error = new Error("Ese E-Mail ya esta registrado.");
+      return res.status(409).json({ error: error.message });
+    }
+
+    try {
+      req.user.name = name;
+      req.user.email = email;
+
+      await req.user.save();
+
+      return res.send("Perfil actualizado correctamente.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      return res.status(500).json({ error: "Error interno." });
+    }
+  }
+
+  static async updateCurrentUserPassword(req: Request, res: Response) {
+    const { password, current_password, password_confirmation } = req.body;
+    const user = await User.findById(req.user.id);
+
+    const isPasswordCorrect = await checkPasswork(
+      current_password,
+      user.password
+    );
+
+    if (!isPasswordCorrect) {
+      const error = new Error("La contraseña es incorrecta");
+      return res.status(401).json({ error: error.message });
+    }
+
+    try {
+      user.password = await hashPassword(password);
+      await user.save();
+      return res.send("El password se modifico correctamente.");
+    } catch (error) {
+      console.log(colors.red.bold(error));
+      return res.status(500).json({ error: "Error interno." });
+    }
   }
 }

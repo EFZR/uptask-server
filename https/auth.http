@@ -1,7 +1,7 @@
 @HOSTNAME=localhost
 @PORT=4000
 @TOKEN=220192
-@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmZiOTg0MTJjMWY0ODI4ODZjZmRmYSIsImlhdCI6MTcxODY3OTY0MiwiZXhwIjoxNzM0MjMxNjQyfQ.H-AMp5xSnmm77m5-2dsWvp2Ke-pQZcGf1iM-iOu0NIQ
+@ACCESS_JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzNiMTZhZDYzNDc1MjY4MTc5NmJmZiIsImlhdCI6MTcxOTI4NjI3MCwiZXhwIjoxNzM0ODM4MjcwfQ.BLwH3tBjFhVe4bKzQBN6zpbP5_NjqxieJYWDNM1WC_8
 
 
 POST http://{{HOSTNAME}}:{{PORT}}/api/auth/create-account
@@ -74,3 +74,26 @@ Content-Type: application/json
 
 GET http://{{HOSTNAME}}:{{PORT}}/api/auth/user
 Authorization: Bearer {{ACCESS_JWT}}
+
+###
+
+PUT http://{{HOSTNAME}}:{{PORT}}/api/auth/profile
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "name": "emerson",
+  "email": "emerson@correo.com"
+}
+
+###
+
+POST http://{{HOSTNAME}}:{{PORT}}/api/auth/update-password
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_JWT}}
+
+{
+  "current_password": "pa",
+  "password": "pa",
+  "password_confirmation": "pa3"
+}
